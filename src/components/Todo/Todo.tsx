@@ -1,9 +1,35 @@
 import clsx from "clsx";
 import { FaSearch } from "react-icons/fa";
+import { useStore } from "../../store";
+import React, { useState } from "react";
+import { TodoItemProps } from "../../context/types";
+import TodoPopup from "./TodoPopup";
+
+interface PopupData {
+  id: number | null;
+  item: TodoItemProps;
+}
 
 const Todo = () => {
+  const [todoPopup, setTodoPopup] = useState<PopupData | null>(null);
+
+  const handleOpenTodoPopUp =  (id: number | null, item: TodoItemProps) => {
+    setTodoPopup({
+      id,
+      item,
+    })
+  }
+
   return (
+    <>
     <div className="pt-5">
+      {
+        todoPopup && <TodoPopup
+        handleClosePopup={() => setTodoPopup(null)}
+        data={todoPopup?.item}
+        id={todoPopup?.id}
+        />
+      }
       <div className="flex items-center gap-3">
         <div className="relative w-full">
           <input
@@ -28,6 +54,11 @@ const Todo = () => {
           </button>
         </div>
         <button
+        onClick={() => 
+          handleOpenTodoPopUp(null, {
+            value: '',
+            isChecked:false
+          })}
           type="button"
           className={clsx(
             "w-fit rounded-lg bg-emerald-700 px-4 py-2.5",
@@ -39,6 +70,11 @@ const Todo = () => {
         </button>
       </div>
     </div>
+            {/* Show all todos */}
+    <div className="py-3">
+
+    </div>
+    </>
   );
 };
 
