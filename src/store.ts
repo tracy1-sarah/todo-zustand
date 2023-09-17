@@ -9,11 +9,10 @@ interface Todo {
 
 //state of the todo store
 interface TodoState {
-  todos: Todo[]
-  addTodo: (todo: Todo) => void
-  editTodo: (id: number, updatedTodo: string) => void
-  toggleTodo: (id: number) => void
-  // searchTerm: (searchTerm: string) => Todo[]
+  todos: Todo[];
+  addTodo: (todo: Todo) => void;
+  editTodo: (id: number, updatedTodo: string) => void;
+  toggleTodo: (id: number) => void;
 }
 
 export const useStore = create<TodoState>((set) => ({
@@ -36,15 +35,10 @@ export const useStore = create<TodoState>((set) => ({
     }));
   },
   editTodo: (id, updatedTodo) => {
-    set((state) => (
-      {
-        todos: state?.todos?.map((todo) => 
-        todo.id === id ? {
-          ...todo, task: updatedTodo
-        }:todo)
-      }
-    ))
-
+    set((state) => ({
+      todos: state.todos.map((todo) =>
+        todo.id === id ? { ...todo, task: updatedTodo } : todo
+      ),
+    }));
   },
- 
 }));

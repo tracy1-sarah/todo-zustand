@@ -1,34 +1,44 @@
 import clsx from "clsx";
 import { TodoItemProps } from "../../context/types";
 import { useStore } from "../../store";
-import {useState} from "react"
+import { useEffect, useState } from "react";
 
-interface TodoPopupProps{
-  id: number | null,
-  data: TodoItemProps,
-  handleClosePopup: () => void
+interface TodoPopupProps {
+  id: number | null;
+  data: TodoItemProps;
+  handleClosePopup: () => void;
 }
 
-const TodoPopup = ({id, data, handleClosePopup}:TodoPopupProps) => {
-  const store = useStore()
-  const [inputValue, setInputValue] = useState(data?.value || '')
+const TodoPopup = ({ id, data, handleClosePopup }: TodoPopupProps) => {
+  const store = useStore();
+  const [inputValue, setInputValue] = useState(data?.value || "");
+  const isEditMode = id !== null;
+
+  useEffect(() => {
+    // Update input value when 'data' prop changes (useful for edit mode)
+    setInputValue(data?.value || "");
+  }, [data]);
 
   const handleAddTodo = (event: React.FormEvent) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    if(inputValue.trim() !== ''){
+    if (inputValue.trim() !== "") {
       const newTodo = {
-        id: id !== null ? id :0,
+        id: isEditMode ? id! : 0, // Use 'id' if in edit mode
         task: inputValue,
-        status: false
+        status: false,
+      };
+      if (isEditMode) {
+        store.editTodo(newTodo.id, newTodo.task);
+      } else {
+        store.addTodo(newTodo);
       }
 
-      store.addTodo(newTodo)
+      store.addTodo(newTodo);
     }
 
-    handleClosePopup()
-
-  }
+    handleClosePopup();
+  };
   return (
     <div
       className={clsx(
@@ -48,7 +58,7 @@ const TodoPopup = ({id, data, handleClosePopup}:TodoPopupProps) => {
                 "text-gray-900",
                 "focus:border-purple-500 focus:ring-purple-500"
               )}
-              placeholder="Enter Todo"
+              placeholder={isEditMode ? 'Edit Todo' : 'Add Todo'}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
             />
@@ -67,10 +77,10 @@ const TodoPopup = ({id, data, handleClosePopup}:TodoPopupProps) => {
                 "hover:bg-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-300"
               )}
             >
-              Add
+              {isEditMode ? 'Save' : 'Add'}
             </button>
             <button
-            onClick={handleClosePopup}
+              onClick={handleClosePopup}
               type="button"
               className={clsx(
                 "bg-white px-5 py-2.5",
