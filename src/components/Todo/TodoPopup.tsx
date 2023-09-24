@@ -15,7 +15,6 @@ const TodoPopup = ({ id, data, handleClosePopup }: TodoPopupProps) => {
   const isEditMode = id !== null;
 
   useEffect(() => {
-    // Update input value when 'data' prop changes (useful for edit mode)
     setInputValue(data?.value || "");
   }, [data]);
 
@@ -24,7 +23,7 @@ const TodoPopup = ({ id, data, handleClosePopup }: TodoPopupProps) => {
 
     if (inputValue.trim() !== "") {
       const newTodo = {
-        id: isEditMode ? id! : 0, // Use 'id' if in edit mode
+        id: isEditMode ? id! : 0, 
         task: inputValue,
         status: false,
       };
@@ -34,7 +33,6 @@ const TodoPopup = ({ id, data, handleClosePopup }: TodoPopupProps) => {
         store.addTodo(newTodo);
       }
 
-      store.addTodo(newTodo);
     }
 
     handleClosePopup();

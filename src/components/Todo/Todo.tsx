@@ -12,15 +12,18 @@ interface PopupData {
 }
 
 const Todo = () => {
-  const store = useStore()
+  const store = useStore();
   const [todoPopup, setTodoPopup] = useState<PopupData | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>('')
 
-  const handleOpenTodoPopUp =  (id: number | null, item: TodoItemProps) => {
+  const handleOpenTodoPopUp = (id: number | null, item: TodoItemProps) => {
     setTodoPopup({
       id,
       item,
-    })
-  }
+    });
+  };
+
+  
 
   return (
     <>
@@ -42,10 +45,13 @@ const Todo = () => {
                 "text-gray-900",
                 "focus:border-blue-500 focus:ring-blue-500"
               )}
-              placeholder="Search..."
+              placeholder={`Search (${store.todos.length} items)`}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
             <button
               type="button"
+              // onClick={handleSearch}
               className={clsx(
                 "absolute bottom-2 right-2 top-2",
                 "rounded-lg bg-purple-700 px-4 text-white",
@@ -79,9 +85,12 @@ const Todo = () => {
         {store.todos.map((todo, index) => (
           <TodoItem
             key={todo.id}
-            item={todo}
-            index={index}
-            onEdit={() => handleOpenTodoPopUp(todo.id, item)}
+            todo={{
+              id: todo.id,
+              value: todo.task,
+              isChecked: todo.status,
+            }}
+            // store={store}
           />
         ))}
       </div>

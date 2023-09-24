@@ -1,31 +1,18 @@
 import clsx from "clsx";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { TodoItemProps } from "../../context/types";
-import { useStore } from "../../store";
-import { useState } from "react";
+import {  useStore } from "../../store";
+import {useState} from "react"
+import TodoPopup from "./TodoPopup";
 
 interface TodoItemInterface {
-  search: string;
-  item: TodoItemProps;
-  index: number;
-  onEdit: () => void;
+  todo: TodoItemProps;
 }
 
-const TodoItem = ({ search, item, index, onEdit }: TodoItemInterface) => {
-  const store = useStore();
-  const [isEditMode, setIsEditMode] = useState<Boolean>(false);
-  const [editTodo, setEditTodo] = useState(item.value);
+const TodoItem = ({ todo }: TodoItemInterface) => {
+  const store = useStore()
+  const [isEdit, setIsEdit] = useState<Boolean>(false)
 
-  // const handleEditTodo = (event: React.FormEvent) => {
-  //   setIsEditMode(true);
-  // };
-const handleEditTodo = () => {
-  // Assuming you have an editTodo function in your store
-  store.editTodo(item.id, editTodo);
-  setIsEditMode(false); // Exit edit mode
-};
-
-  
 
   return (
     <div
@@ -34,36 +21,40 @@ const handleEditTodo = () => {
         "rounded-lg border border-gray-200 shadow"
       )}
     >
-      <span className="font-normal text-gray-700"></span>
+      <span className="font-normal text-gray-700">{todo.value}</span>
       <div className="flex gap-2">
         <button
+          onClick={() => store.deleteTodo(todo.id)}
           type="button"
           className={clsx(
             "flex h-10 w-10 items-center justify-center rounded-lg bg-rose-700",
             "hover:bg-rose-800 focus:outline-none focus:ring-4 focus:ring-rose-300"
           )}
         >
-          <FaRegTrashAlt />
+          <FaRegTrashAlt className="text-white" />
         </button>
         <button
-          onClick={handleEditTodo}
+          onClick={() => setIsEdit(true)}
           type="button"
           className={clsx(
             "flex h-10 w-10 items-center justify-center rounded-lg bg-blue-700",
             "hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300"
           )}
         >
-          <FaRegEdit />
+          <FaRegEdit className="text-white" />
         </button>
-        {/* <button
-          type="button"
-          className={clsx(
-            item.isChecked ? "bg-emerald-700" : "bg-gray-400",
-            "flex h-10 w-10 items-center justify-center rounded-lg",
-            "hover:bg-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-300"
-          )}
-        ></button> */}
       </div>
+      {isEdit && (
+        <TodoPopup
+          id={todo.id}
+          data={{
+            id: todo?.id,
+            value: todo?.value,
+            isChecked: todo?.isChecked,
+          }}
+          handleClosePopup={() => setIsEdit(false)}
+        />
+      )}
     </div>
   );
 };

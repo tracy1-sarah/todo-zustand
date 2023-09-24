@@ -1,6 +1,5 @@
 export interface TodoItemProps {
-  id: number,
-    value: string
-    isChecked: boolean
-  }
-  
+  id: number;
+  value: string;
+  isChecked: boolean;
+}

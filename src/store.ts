@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 //Individual todo
-interface Todo {
+export interface Todo {
   id: number;
   task: string;
   status: boolean;
@@ -12,7 +12,8 @@ interface TodoState {
   todos: Todo[];
   addTodo: (todo: Todo) => void;
   editTodo: (id: number, updatedTodo: string) => void;
-  toggleTodo: (id: number) => void;
+  deleteTodo: (id: number) => void;
+  search: (query: string) => void;
 }
 
 export const useStore = create<TodoState>((set) => ({
@@ -22,23 +23,25 @@ export const useStore = create<TodoState>((set) => ({
       todos: [...state.todos, todo],
     }));
   },
-  toggleTodo: (id) => {
-    set((state) => ({
-      todos: state?.todos?.map((todo) =>
-        todo.id === id
-          ? {
-              ...todo,
-              status: !todo.status,
-            }
-          : todo
-      ),
-    }));
-  },
   editTodo: (id, updatedTodo) => {
     set((state) => ({
       todos: state.todos.map((todo) =>
         todo.id === id ? { ...todo, task: updatedTodo } : todo
       ),
     }));
+  },
+  deleteTodo: (id) => {
+    set((state) => ({
+      todos: state.todos.filter((todo) => todo.id !== id),
+    }));
+  },
+
+  search: (query) => {
+    set((state) => (
+      {
+        todos: state.todos.filter((todo) => todo.task.toLowerCase().includes(query.toLowerCase()))
+      }
+    ))
+    
   },
 }));
