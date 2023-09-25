@@ -10,6 +10,7 @@ export interface Todo {
 //state of the todo store
 interface TodoState {
   todos: Todo[];
+  filteredTodos: Todo[];
   addTodo: (todo: Todo) => void;
   editTodo: (id: number, updatedTodo: string) => void;
   deleteTodo: (id: number) => void;
@@ -18,6 +19,7 @@ interface TodoState {
 
 export const useStore = create<TodoState>((set) => ({
   todos: [],
+  filteredTodos: [],
   addTodo: (todo) => {
     set((state) => ({
       todos: [...state.todos, todo],
@@ -37,11 +39,10 @@ export const useStore = create<TodoState>((set) => ({
   },
 
   search: (query) => {
-    set((state) => (
-      {
-        todos: state.todos.filter((todo) => todo.task.toLowerCase().includes(query.toLowerCase()))
-      }
-    ))
-    
+    set((state) => ({
+      filteredTodos: state.todos.filter((todo) =>
+        todo.task.toLowerCase().includes(query.toLowerCase())
+      ),
+    }));
   },
 }));
