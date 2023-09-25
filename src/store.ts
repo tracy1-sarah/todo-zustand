@@ -4,7 +4,6 @@ import { create } from "zustand";
 export interface Todo {
   id: number;
   task: string;
-  status: boolean;
 }
 
 //state of the todo store
@@ -39,10 +38,13 @@ export const useStore = create<TodoState>((set) => ({
   },
 
   search: (query) => {
-    set((state) => ({
+    // Filter the todos based on the query
+    const filteredTodos = set((state) => ({
       filteredTodos: state.todos.filter((todo) =>
         todo.task.toLowerCase().includes(query.toLowerCase())
       ),
     }));
+
+    return filteredTodos;
   },
 }));

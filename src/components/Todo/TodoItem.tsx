@@ -50,7 +50,6 @@ const TodoItem = ({ todo }: TodoItemInterface) => {
           data={{
             id: todo?.id,
             value: todo?.value,
-            isChecked: todo?.isChecked,
           }}
           handleClosePopup={() => setIsEdit(false)}
         />

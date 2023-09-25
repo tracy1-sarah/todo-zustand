@@ -1,11 +1,13 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import Todo from "./Todo";
 import { useStore } from "../../store";
 
+// Mock the useStore function
 jest.mock("../../store", () => ({
   useStore: jest.fn(),
 }));
 
+// Define the mock store
 const mockUseStore = useStore as jest.MockedFunction<typeof useStore>;
 
 const mockStore: {
@@ -45,5 +47,29 @@ describe("Todo component", () => {
 
     render(<Todo />);
     expect(screen.getByText("No todo items to display")).toBeInTheDocument();
+  });
+
+  it("performs a search when the search button is clicked", () => {
+    render(<Todo />);
+    const searchInput = screen.getByTestId("search-input");
+    const searchButton = screen.getByTestId("search-button");
+
+    fireEvent.change(searchInput, { target: { value: "Task 1" } });
+    fireEvent.click(searchButton);
+
+    expect(mockStore.search).toHaveBeenCalledWith("Task 1");
+  });
+
+  it("displays \"Todo doesn't exist\" when a search doesn't match any todos", () => {
+    mockStore.filteredTodos = []; 
+
+     render(<Todo />);
+    const searchInput = screen.getByTestId("search-input");
+    const searchButton = screen.getByTestId("search-button");
+
+    fireEvent.change(searchInput, { target: { value: "Non-Existent Task" } });
+    fireEvent.click(searchButton);
+
+    expect(screen.getByText("Todo doesn't exist")).toBeInTheDocument();
   });
 });

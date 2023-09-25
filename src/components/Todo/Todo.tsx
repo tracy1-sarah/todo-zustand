@@ -15,6 +15,8 @@ const Todo = () => {
   const store = useStore();
   const [todoPopup, setTodoPopup] = useState<PopupData | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
+    const [todoNotFound, setTodoNotFound] = useState<boolean>(false);
+
 
   const handleOpenTodoPopUp = (id: number | null, item: TodoItemProps) => {
     setTodoPopup({
@@ -23,13 +25,13 @@ const Todo = () => {
     });
   };
 
-  const todosToRender =
-    store.filteredTodos.length > 0 ? store.filteredTodos : store.todos;
+  const todosToRender = store.filteredTodos.length > 0 ? store.filteredTodos : store.todos;
   const showNoItemsMessage = !searchQuery && todosToRender.length === 0;
 
-  const handleSearch = () => {
-    store.search(searchQuery);
-  };
+ const handleSearch = () => {
+   store.search(searchQuery); 
+   setTodoNotFound(store.filteredTodos.length === 0);
+ };
 
   return (
     <>
@@ -75,7 +77,6 @@ const Todo = () => {
               handleOpenTodoPopUp(null, {
                 id: 1,
                 value: "",
-                isChecked: false,
               })
             }
             type="button"
@@ -98,7 +99,6 @@ const Todo = () => {
             todo={{
               id: todo.id,
               value: todo.task,
-              isChecked: todo.status,
             }}
           />
         ))}

@@ -25,7 +25,6 @@ const TodoPopup = ({ id, data, handleClosePopup }: TodoPopupProps) => {
       const newTodo = {
         id: isEditMode ? id! : 0, 
         task: inputValue,
-        status: false,
       };
       if (isEditMode) {
         store.editTodo(newTodo.id, newTodo.task);
