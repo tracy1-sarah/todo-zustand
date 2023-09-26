@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { FaSearch } from "react-icons/fa";
 import { useStore } from "../../store";
-import React, { useState } from "react";
+import  { useState } from "react";
 import { TodoItemProps } from "../../context/types";
 import TodoPopup from "./TodoPopup";
 import TodoItem from "./TodoItem";
@@ -15,7 +15,7 @@ const Todo = () => {
   const store = useStore();
   const [todoPopup, setTodoPopup] = useState<PopupData | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
-    const [todoNotFound, setTodoNotFound] = useState<boolean>(false);
+  const [todoNotFound, setTodoNotFound] = useState<boolean>(false);
 
 
   const handleOpenTodoPopUp = (id: number | null, item: TodoItemProps) => {
@@ -76,7 +76,7 @@ const Todo = () => {
             onClick={() =>
               handleOpenTodoPopUp(null, {
                 id: 1,
-                value: "",
+                task: "",
               })
             }
             type="button"
@@ -98,7 +98,7 @@ const Todo = () => {
             key={todo.id}
             todo={{
               id: todo.id,
-              value: todo.task,
+              task: todo.task,
             }}
           />
         ))}

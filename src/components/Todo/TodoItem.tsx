@@ -21,7 +21,7 @@ const TodoItem = ({ todo }: TodoItemInterface) => {
         "rounded-lg border border-gray-200 shadow"
       )}
     >
-      <span className="font-normal text-gray-700">{todo.value}</span>
+      <span className="font-normal text-gray-700">{todo.task}</span>
       <div className="flex gap-2">
         <button
           onClick={() => store.deleteTodo(todo.id)}
@@ -49,7 +49,7 @@ const TodoItem = ({ todo }: TodoItemInterface) => {
           id={todo.id}
           data={{
             id: todo?.id,
-            value: todo?.value,
+            task: todo?.task,
           }}
           handleClosePopup={() => setIsEdit(false)}
         />

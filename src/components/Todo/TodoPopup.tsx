@@ -11,11 +11,11 @@ interface TodoPopupProps {
 
 const TodoPopup = ({ id, data, handleClosePopup }: TodoPopupProps) => {
   const store = useStore();
-  const [inputValue, setInputValue] = useState(data?.value || "");
+  const [inputValue, setInputValue] = useState(data?.task || "");
   const isEditMode = id !== null;
 
   useEffect(() => {
-    setInputValue(data?.value || "");
+    setInputValue(data?.task || "");
   }, [data]);
 
   const handleAddTodo = (event: React.FormEvent) => {

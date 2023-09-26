@@ -1,15 +1,13 @@
-import './App.css';
-import { Card, Heading, Todo } from './components';
+import "./App.css";
+import { Card, Heading, Todo } from "./components";
 
 function App() {
   return (
     <div className="min-h-screen justify-center flex items-center  bg-gray-100">
       <Card>
-        <Heading/>
-        <Todo/>
-
+        <Heading />
+        <Todo />
       </Card>
-     
     </div>
   );
 }

@@ -26,7 +26,7 @@ describe("TodoPopup component", () => {
 
   it("renders TodoPopup correctly", () => {
     const handleClosePopup = jest.fn();
-    const data = { id: 1, value: "Task 1" };
+    const data = { id: 1, task: "Task 1" };
     const id = 1;
 
     render(
@@ -40,7 +40,7 @@ describe("TodoPopup component", () => {
 
   it("calls editTodo when in edit mode and Save button is clicked", async () => {
     const handleClosePopup = jest.fn();
-    const data = { id: 1, value: "Task 1" };
+    const data = { id: 1, task: "Task 1" };
     const id = 1;
 
     render(
@@ -50,12 +50,12 @@ describe("TodoPopup component", () => {
     const saveButton = screen.getByText("Save");
     fireEvent.click(saveButton);
 
-   await  expect(mockStore.editTodo).toHaveBeenCalledWith(id, data.value);
+   await  expect(mockStore.editTodo).toHaveBeenCalledWith(id, data.task);
   });
 
   it("calls addTodo when in add mode and Add button is clicked", async () => {
     const handleClosePopup = jest.fn();
-    const data = { id: 1, value: "cook food" };
+    const data = { id: 1, task: "cook food" };
     const id = 1;
 
     render(
