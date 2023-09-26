@@ -15,7 +15,6 @@ const Todo = () => {
   const store = useStore();
   const [todoPopup, setTodoPopup] = useState<PopupData | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [todoNotFound, setTodoNotFound] = useState<boolean>(false);
 
 
   const handleOpenTodoPopUp = (id: number | null, item: TodoItemProps) => {
@@ -30,7 +29,6 @@ const Todo = () => {
 
  const handleSearch = () => {
    store.search(searchQuery); 
-   setTodoNotFound(store.filteredTodos.length === 0);
  };
 
   return (

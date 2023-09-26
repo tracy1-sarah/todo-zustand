@@ -18,7 +18,7 @@ const TodoPopup = ({ id, data, handleClosePopup }: TodoPopupProps) => {
     setInputValue(data?.task || "");
   }, [data]);
 
-  const handleAddTodo = (event: React.FormEvent) => {
+  const handleAddAndEditTodo = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (inputValue.trim() !== "") {
@@ -44,7 +44,7 @@ const TodoPopup = ({ id, data, handleClosePopup }: TodoPopupProps) => {
       )}
     >
       <div className="w-full max-w-md">
-        <form className="rounded-lg bg-white shadow" onSubmit={handleAddTodo}>
+        <form className="rounded-lg bg-white shadow" onSubmit={handleAddAndEditTodo}>
           <div className="p-6">
             <input
               required
@@ -74,7 +74,7 @@ const TodoPopup = ({ id, data, handleClosePopup }: TodoPopupProps) => {
                 "hover:bg-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-300"
               )}
             >
-              {isEditMode ? 'Save' : 'Add'}
+              {isEditMode ? 'Update' : 'Add'}
             </button>
             <button
               onClick={handleClosePopup}
